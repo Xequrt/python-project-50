@@ -19,4 +19,4 @@ ___
 
 The program compares and finds differences in the data structure in two JSON format files.
 
-[![asciicast](https://asciinema.org/a/662116.svg)](https://asciinema.org/a/662116)
+[![asciicast](https://asciinema.org/a/662259.svg)](https://asciinema.org/a/662259)
