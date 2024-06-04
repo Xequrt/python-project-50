@@ -26,7 +26,7 @@ jobs:
           python-version: '3.10'
         
       - name: Poetry install
-         run: make install
+         run: pip install poetry
          
       - name: Install lint and pytest
          run: poetry add --group dev flake8, pytest
