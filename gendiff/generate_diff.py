@@ -12,15 +12,15 @@ def generate_diff(file1_path, file2_path, output_format):
     for key in sorted(set(parsed_data1.keys()) | set(parsed_data2.keys())):
         if key in parsed_data1 and key in parsed_data2:
             if parsed_data1[key] == parsed_data2[key]:
-                diff.append(f'  {key}: {parsed_data1[key]}\n')
+                diff.append(f'  {key}: {str(parsed_data1[key]).lower()}\n')
             elif parsed_data1[key] != parsed_data2[key]:
                 if key in parsed_data1:
-                    diff.append(f'- {key}: {parsed_data1[key]}\n')
+                    diff.append(f'- {key}: {str(parsed_data1[key]).lower()}\n')
                 if key in parsed_data2:
-                    diff.append(f'+ {key}: {parsed_data2[key]}\n')
+                    diff.append(f'+ {key}: {str(parsed_data2[key]).lower()}\n')
 
         elif key in parsed_data1:
-            diff.append(f'- {key}: {parsed_data1[key]}\n')
+            diff.append(f'- {key}: {str(parsed_data1[key]).lower()}\n')
         else:
-            diff.append(f'+ {key}: {parsed_data2[key]}\n')
+            diff.append(f'+ {key}: {str(parsed_data2[key]).lower()}\n')
     return "{\n  " + "  ".join(diff) + "}"
