@@ -38,8 +38,8 @@ jobs:
           make lint
           make test
 
-      - name: Code Climate Coverage Action Test
-        uses: MartinNuc/codeclimate-action@v2.5.10
+      - name: Code Coverage
+        uses: paambaati/codeclimate-action@v2.2.4
         env:
           CCS_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
