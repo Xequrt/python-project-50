@@ -41,7 +41,7 @@ jobs:
       - name: Code Coverage
         uses: paambaati/codeclimate-action@v6.0.0
         env:
-          CCS_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+          CS_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
           coverageCommand: make test-coverage
           debug: true
