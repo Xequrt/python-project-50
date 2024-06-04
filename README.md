@@ -1,6 +1,8 @@
 # ***The difference calculator***
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Xequrt/python-project-50/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Xequrt/python-project-50/actions)
+### Maintainability Badge
+[![Maintainability](https://api.codeclimate.com/v1/badges/039f234fb1e411827caa/maintainability)](https://codeclimate.com/github/Xequrt/python-project-50/maintainability)
 
 ### Description.
 ___
