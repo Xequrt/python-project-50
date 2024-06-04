@@ -26,12 +26,12 @@ jobs:
           python-version: '3.10'
         
       - name: Poetry install
-         run: |
-          pip install poetry
-          make install
+        run: |
+         pip install poetry
+         make install
          
       - name: Install lint and pytest
-         run: poetry add --group dev flake8, pytest
+        run: poetry add --group dev flake8 pytest
        
       - name: Launch lint and pytest
       	 run: |
@@ -40,8 +40,8 @@ jobs:
       	   
       - name: Code Climate Coverage Action Test
         uses: MartinNuc/codeclimate-action@v2.5.10
-         env:
-           CCS_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-         with:
-      	   coverageCommand: make test-coverage
-           debug: true
+        env:
+          CCS_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        with:
+      	  coverageCommand: make test-coverage
+          debug: true
