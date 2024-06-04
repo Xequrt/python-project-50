@@ -34,10 +34,10 @@ jobs:
         run: poetry add --group dev flake8 pytest
        
       - name: Launch lint and pytest
-      	 run: |
-      	   make lint
-      	   make test
-      	   
+      	run: |
+      	  make lint
+      	  make test
+
       - name: Code Climate Coverage Action Test
         uses: MartinNuc/codeclimate-action@v2.5.10
         env:
