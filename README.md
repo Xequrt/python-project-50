@@ -24,3 +24,11 @@ ___
 The program compares and finds differences in the data structure in two JSON format files.
 
 [![asciicast](https://asciinema.org/a/662259.svg)](https://asciinema.org/a/662259)
+
+***🐫≠🐪Comparison of flat files (YML, YAML)***
+
+`gendiff file1.yml file2.yml`
+
+The program compares and finds differences in the data structure in two YML format files.
+
+[![asciicast](https://asciinema.org/a/662584.svg)](https://asciinema.org/a/662584)
