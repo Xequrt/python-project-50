@@ -1,7 +1,7 @@
 from os.path import splitext
 
 
-EXTENSIONS = ('json')
+EXTENSIONS = ('json', 'yml', 'yaml')
 
 
 def extensions_data(path_file):
