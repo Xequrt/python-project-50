@@ -33,7 +33,7 @@ from gendiff.stylish import output_stylish
 #         else:
 #             diff.append(format_line(key, parsed_data2[key], '+'))
 
-    # return "{\n  " + "  ".join(diff) + "}"
+# return "{\n  " + "  ".join(diff) + "}"
 
 
 def make_diff(parsed_data1, parsed_data2):
@@ -52,12 +52,19 @@ def make_diff(parsed_data1, parsed_data2):
                 "old": parsed_data2[key]
             })
         elif isinstance(parsed_data1[key], dict) and isinstance(parsed_data2[key], dict):
-            child = generate_diff(parsed_data1[key], parsed_data2[key])
-            diff.append({
-                "key": key,
-                "value": "tree",
-                "meta": child
-            })
+            child = make_diff(parsed_data1[key], parsed_data2[key])
+            if child:
+                diff.append({
+                    "key": key,
+                    "value": "tree",
+                    "children": child
+                })
+            else:
+                diff.append({
+                    "key": key,
+                    "value": "unchanged",
+                    "meta": parsed_data1[key]
+                })
         elif parsed_data1[key] == parsed_data2[key]:
             diff.append({
                 "key": key,
@@ -73,24 +80,16 @@ def make_diff(parsed_data1, parsed_data2):
             })
     return diff
 
-def get_format(output_format):
-    formatters = {
-        'stylish': output_stylish,
-    }
-    if output_format in formatters:
-        return formatters[output_format]
-    else:
-        raise ValueError(f"Unrecognized output format: {output_format}")
 
-def generate_diff(file1_path, file2_path, output_format = 'stylish'):
+def generate_diff(file1_path, file2_path, output_format):
     data1, extension1 = extensions_data(file1_path)
     data2, extension2 = extensions_data(file2_path)
 
     parsed_data1 = parse(data1, extension1)
     parsed_data2 = parse(data2, extension2)
+
     diff = make_diff(parsed_data1, parsed_data2)
-    return get_format(output_format)(diff)
+    if output_format == "stylish":
+        return output_stylish(diff)
 
-
-
-
+    raise ValueError(f"Unrecognized output format: {output_format}")

@@ -7,28 +7,36 @@ PREFIX = {
 DEFAULT_INDENT = 4
 
 
-def format_line(dictionary, key, depth, prefix):
-    return f'{" " * depth}{prefix}{dictionary[key]}: {str(dictionary[key]).lower()}\n'
+def stylish(diff, depth=0, indent_char=' ', indent_size=DEFAULT_INDENT):
+    result = []
 
-def stylish(diff, depth=0):
-    result = ["{"]
-    for elem in diff:
-        key = elem['key']
-        value = elem['value']
-        if value == 'unchanged':
-            result.append(format_line(elem, elem['meta'], depth, PREFIX['unchanged']))
-        if value == 'added':
-            result.append((format_line(elem, 'new', depth, PREFIX['added'])))
-        if value == 'removed':
-            result.append(format_line((elem, 'old', depth, PREFIX['removed'])))
-        if value == 'changed':
-            result.append(format_line((elem, 'new', depth, PREFIX['added'])))
-        if value == 'tree':
-            new_meta = stylish(diff['meta'], depth + DEFAULT_INDENT)
-            result.append(
-                f'{" " * depth}    {key}: {new_meta}')
-            result.append(f'{" " * depth}}}')
-            return '\n'.join(result)
+    indent = indent_char * depth
+    child_indent = indent_char * (depth + indent_size)
+    if len(diff) >= 1:
+        result.append(f"{indent}{{")
+    else:
+        result.append(f"{indent}")
+    for element in diff:
+        if element['value'] == 'tree':
+            new_meta = stylish(element['children'], depth + indent_size, indent_char, indent_size)
+            result.append(f"{child_indent}{element['key']}: {new_meta}")
+        elif element['value'] == 'added':
+            result.append(f"{child_indent}{PREFIX['added']}{element['key']}: {element['old']}")
+        elif element['value'] == 'removed':
+            result.append(f"{child_indent}{PREFIX['removed']}{element['key']}: {element['new']}")
+        elif element['value'] == 'unchanged':
+            result.append(f"{child_indent}{PREFIX['unchanged']}{element['key']}: {element['meta']}")
+        elif element['value'] == 'changed':
+            result.append(f"{child_indent}{PREFIX['removed']}{element['key']}: {element['new']}")
+            result.append(f"{child_indent}{PREFIX['added']}{element['key']}: {element['old']}")
+        if element['value'] != 'tree':
+            result.append(f"{child_indent}")
+
+    if len(diff) >= 1:
+        result.append(f"{indent}}}")
+
+    return '\n'.join(result)
+
 
 def output_stylish(diff):
     return stylish(diff)
