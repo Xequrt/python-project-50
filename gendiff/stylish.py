@@ -8,17 +8,16 @@ DEFAULT_INDENT = 4
 
 
 def stylish(diff, depth=0, indent_char=' ', indent_size=DEFAULT_INDENT):
-    result = []
+    result = ["{"]
 
-    indent = indent_char * depth
-    child_indent = indent_char * (depth + indent_size)
-    if len(diff) >= 1:
-        result.append(f"{indent}{{")
-    else:
-        result.append(f"{indent}")
+    child_indent = indent_char * (depth * indent_size - 2)
+    # if len(diff) >= 1:
+    #     result.append(f"{indent_char * depth}{{")
+    # else:
+    #     result.append(f"{indent_char * depth}")
     for element in diff:
         if element['value'] == 'tree':
-            new_meta = stylish(element['children'], depth + indent_size, indent_char, indent_size)
+            new_meta = stylish(element['children'], depth + 1)
             result.append(f"{child_indent}{element['key']}: {new_meta}")
         elif element['value'] == 'added':
             result.append(f"{child_indent}{PREFIX['added']}{element['key']}: {element['old']}")
@@ -29,11 +28,8 @@ def stylish(diff, depth=0, indent_char=' ', indent_size=DEFAULT_INDENT):
         elif element['value'] == 'changed':
             result.append(f"{child_indent}{PREFIX['removed']}{element['key']}: {element['new']}")
             result.append(f"{child_indent}{PREFIX['added']}{element['key']}: {element['old']}")
-        if element['value'] != 'tree':
-            result.append(f"{child_indent}")
 
-    if len(diff) >= 1:
-        result.append(f"{indent}}}")
+    result.append(f"{indent_char * depth}}}")
 
     return '\n'.join(result)
 
