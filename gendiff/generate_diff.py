@@ -10,12 +10,45 @@ def build_diff(parsed_data1, parsed_data2):
     }
 
 
-def make_diff(parsed_data1, parsed_data2):
+def make_diff_unchanged(data1, key):
+    return {
+        "key": key,
+        "value": "unchanged",
+        "meta": data1[key]
+    }
+
+
+def make_diff_changed(data1, data2, key):
+    return {
+        "key": key,
+        "value": "changed",
+        "new": data1[key],
+        "old": data2[key]
+    }
+
+
+def make_diff_added(data2, key):
+    return {
+        "key": key,
+        "value": "added",
+        "old": data2[key]
+    }
+
+
+def make_diff_removed(data1, key):
+    return {
+        "key": key,
+        "value": "removed",
+        "new": data1[key]
+    }
+
+
+def make_diff(data1, data2):
     diff = []
-    for key in sorted(set(parsed_data1.keys()) | set(parsed_data2.keys())):
-        if key in parsed_data1 and key in parsed_data2:
-            if isinstance(parsed_data1[key], dict) and isinstance(parsed_data2[key], dict):
-                child = make_diff(parsed_data1[key], parsed_data2[key])
+    for key in sorted(set(data1.keys()) | set(data2.keys())):
+        if key in data1 and key in data2:
+            if isinstance(data1[key], dict) and isinstance(data2[key], dict):
+                child = make_diff(data1[key], data2[key])
                 if child:
                     diff.append({
                         "key": key,
@@ -23,50 +56,29 @@ def make_diff(parsed_data1, parsed_data2):
                         "children": child
                     })
                 else:
-                    diff.append({
-                        "key": key,
-                        "value": "unchanged",
-                        "meta": parsed_data1[key]
-                    })
-            elif parsed_data1[key] == parsed_data2[key]:
-                diff.append({
-                    "key": key,
-                    "value": "unchanged",
-                    "meta": parsed_data1[key]
-                })
+                    diff.append(make_diff_unchanged(data1, key))
+            elif data1[key] == data2[key]:
+                diff.append(make_diff_unchanged(data1, key))
             else:
-                diff.append({
-                    "key": key,
-                    "value": "changed",
-                    "new": parsed_data1[key],
-                    "old": parsed_data2[key]
-                })
-        elif key not in parsed_data2:
-            if isinstance(parsed_data1[key], dict):
+                diff.append(make_diff_changed(data1, data2, key))
+        elif key not in data2:
+            if isinstance(data1[key], dict):
                 diff.append({
                     "key": key,
                     "value": "tree",
-                    "children": make_diff(parsed_data1[key], {})
+                    "children": make_diff(data1[key], {})
                 })
             else:
-                diff.append({
-                    "key": key,
-                    "value": "removed",
-                    "new": parsed_data1[key]
-                })
-        elif key not in parsed_data1:
-            if isinstance(parsed_data2[key], dict):
+                diff.append(make_diff_removed(data1, key))
+        elif key not in data1:
+            if isinstance(data2[key], dict):
                 diff.append({
                     "key": key,
                     "value": "tree",
-                    "children": make_diff({}, parsed_data2[key])
+                    "children": make_diff({}, data2[key])
                 })
             else:
-                diff.append({
-                    "key": key,
-                    "value": "added",
-                    "old": parsed_data2[key]
-                })
+                diff.append(make_diff_added(data2, key))
     return diff
 
 
