@@ -10,6 +10,14 @@ def build_diff(parsed_data1, parsed_data2):
     }
 
 
+def make_diff_tree(child, key):
+    return {
+        "key": key,
+        "value": "tree",
+        "children": child
+    }
+
+
 def make_diff_unchanged(data1, key):
     return {
         "key": key,
@@ -46,39 +54,17 @@ def make_diff_removed(data1, key):
 def make_diff(data1, data2):
     diff = []
     for key in sorted(set(data1.keys()) | set(data2.keys())):
-        if key in data1 and key in data2:
-            if isinstance(data1[key], dict) and isinstance(data2[key], dict):
-                child = make_diff(data1[key], data2[key])
-                if child:
-                    diff.append({
-                        "key": key,
-                        "value": "tree",
-                        "children": child
-                    })
-                else:
-                    diff.append(make_diff_unchanged(data1, key))
-            elif data1[key] == data2[key]:
-                diff.append(make_diff_unchanged(data1, key))
-            else:
-                diff.append(make_diff_changed(data1, data2, key))
+        if key not in data1:
+            diff.append(make_diff_added(data2, key))
         elif key not in data2:
-            if isinstance(data1[key], dict):
-                diff.append({
-                    "key": key,
-                    "value": "tree",
-                    "children": make_diff(data1[key], {})
-                })
-            else:
-                diff.append(make_diff_removed(data1, key))
-        elif key not in data1:
-            if isinstance(data2[key], dict):
-                diff.append({
-                    "key": key,
-                    "value": "tree",
-                    "children": make_diff({}, data2[key])
-                })
-            else:
-                diff.append(make_diff_added(data2, key))
+            diff.append(make_diff_removed(data1, key))
+        elif data1[key] == data2[key]:
+            diff.append(make_diff_unchanged(data1, key))
+        elif isinstance(data1[key], dict) and isinstance(data2[key], dict):
+            child = make_diff(data1[key], data2[key])
+            diff.append(make_diff_tree(child, key))
+        elif data1[key] != data2[key]:
+            diff.append(make_diff_changed(data1, data2, key))
     return diff
 
 
