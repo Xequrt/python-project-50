@@ -5,7 +5,7 @@ from gendiff.stylish import stylish
 
 def build_diff(parsed_data1, parsed_data2):
     return {
-        "value": "root",
+        "type": "root",
         "children": make_diff(parsed_data1, parsed_data2)
     }
 
@@ -13,7 +13,7 @@ def build_diff(parsed_data1, parsed_data2):
 def make_diff_tree(child, key):
     return {
         "key": key,
-        "value": "tree",
+        "type": "tree",
         "children": child
     }
 
@@ -21,15 +21,15 @@ def make_diff_tree(child, key):
 def make_diff_unchanged(data1, key):
     return {
         "key": key,
-        "value": "unchanged",
-        "meta": data1[key]
+        "type": "unchanged",
+        "value": data1[key]
     }
 
 
 def make_diff_changed(data1, data2, key):
     return {
         "key": key,
-        "value": "changed",
+        "type": "changed",
         "new": data1[key],
         "old": data2[key]
     }
@@ -38,7 +38,7 @@ def make_diff_changed(data1, data2, key):
 def make_diff_added(data2, key):
     return {
         "key": key,
-        "value": "added",
+        "type": "added",
         "old": data2[key]
     }
 
@@ -46,7 +46,7 @@ def make_diff_added(data2, key):
 def make_diff_removed(data1, key):
     return {
         "key": key,
-        "value": "removed",
+        "type": "removed",
         "new": data1[key]
     }
 

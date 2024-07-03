@@ -14,7 +14,7 @@ def convert_to_str(value, depth=0, indent_char=' ', indent_size=DEFAULT_INDENT):
         lines = ["{"]
         for key, val in value.items():
             lines.append(f"{child_indent}{key}: "
-                         f"{convert_to_str(val, indent_char, indent_size)}")
+                         f"{convert_to_str(val, depth + 1, indent_char, indent_size)}")
         lines.append(f"{current_indent}}}")
         return "\n".join(lines)
     elif isinstance(value, bool):
@@ -27,7 +27,7 @@ def convert_to_str(value, depth=0, indent_char=' ', indent_size=DEFAULT_INDENT):
 
 def stylish(diff, depth=0, indent_char=' ', indent_size=DEFAULT_INDENT):
     child_indent = indent_char * (depth * indent_size - 2)
-    if diff['value'] == 'root':
+    if diff['type'] == 'root':
         lines = list(
             map(
                 lambda x: stylish(x, depth + 1, indent_char, indent_size),
@@ -36,7 +36,7 @@ def stylish(diff, depth=0, indent_char=' ', indent_size=DEFAULT_INDENT):
         )
         result = '\n'.join(lines)
         return f'{{\n{result}\n}}'
-    elif diff['value'] == 'tree':
+    elif diff['type'] == 'tree':
         lines = list(
             map(
                 lambda x: stylish(x, depth + 1, indent_char, indent_size),
@@ -44,17 +44,17 @@ def stylish(diff, depth=0, indent_char=' ', indent_size=DEFAULT_INDENT):
         result = '\n'.join(lines)
         return (f"{child_indent}{PREFIX['tree']}{diff['key']}:"
                 f" {{\n{result}\n{child_indent}}}")
-    elif diff['value'] == 'added':
+    elif diff['type'] == 'added':
         return (f"{child_indent}{PREFIX['added']}{diff['key']}:"
-                f" {convert_to_str(diff['old'], depth)}")
-    elif diff['value'] == 'removed':
+                f" {convert_to_str(diff['old'], depth, indent_char, indent_size)}")
+    elif diff['type'] == 'removed':
         return (f"{child_indent}{PREFIX['removed']}{diff['key']}:"
-                f" {convert_to_str(diff['new'], depth)}")
-    elif diff['value'] == 'unchanged':
+                f" {convert_to_str(diff['new'], depth, indent_char, indent_size)}")
+    elif diff['type'] == 'unchanged':
         return (f"{child_indent}{PREFIX['unchanged']}{diff['key']}:"
-                f" {convert_to_str(diff['meta'], depth)}")
-    elif diff['value'] == 'changed':
+                f" {convert_to_str(diff['value'], depth, indent_char, indent_size)}")
+    elif diff['type'] == 'changed':
         return (f"{child_indent}{PREFIX['removed']}{diff['key']}:"
-                f" {convert_to_str(diff['new'], depth)}\n"
+                f" {convert_to_str(diff['new'], depth, indent_char, indent_size)}\n"
                 f"{child_indent}{PREFIX['added']}{diff['key']}:"
-                f" {convert_to_str(diff['old'], depth)}")
+                f" {convert_to_str(diff['old'], depth, indent_char, indent_size)}")
