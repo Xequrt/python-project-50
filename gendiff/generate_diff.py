@@ -39,7 +39,7 @@ def make_diff_added(data2, key):
     return {
         "key": key,
         "type": "added",
-        "old": data2[key]
+        "value": data2[key]
     }
 
 
@@ -47,7 +47,7 @@ def make_diff_removed(data1, key):
     return {
         "key": key,
         "type": "removed",
-        "new": data1[key]
+        "value": data1[key]
     }
 
 
