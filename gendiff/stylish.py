@@ -55,6 +55,6 @@ def stylish(diff, depth=0, indent_char=' ', indent_size=DEFAULT_INDENT):
                 f" {convert_to_str(diff['value'], depth, indent_char, indent_size)}")
     elif diff['type'] == 'changed':
         return (f"{child_indent}{PREFIX['removed']}{diff['key']}:"
-                f" {convert_to_str(diff['new'], depth, indent_char, indent_size)}\n"
+                f" {convert_to_str(diff['old'], depth, indent_char, indent_size)}\n"
                 f"{child_indent}{PREFIX['added']}{diff['key']}:"
-                f" {convert_to_str(diff['old'], depth, indent_char, indent_size)}")
+                f" {convert_to_str(diff['new'], depth, indent_char, indent_size)}")

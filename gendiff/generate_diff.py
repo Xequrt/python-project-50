@@ -30,8 +30,8 @@ def make_diff_changed(data1, data2, key):
     return {
         "key": key,
         "type": "changed",
-        "new": data1[key],
-        "old": data2[key]
+        "old": data1[key],
+        "new": data2[key]
     }
 
 
