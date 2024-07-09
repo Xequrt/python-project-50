@@ -16,7 +16,8 @@ def convert_to_str(value, depth=0, indent_char=' ', indent_size=DEFAULT_INDENT):
                 lines.append(f"{child_indent}{key}: "
                              f"{convert_to_str(val, depth + 1, indent_char, indent_size)}")
             else:
-                lines.append(f'{child_indent}{key}: {convert_to_str(val, depth, indent_char, indent_size)}')
+                lines.append(f'{child_indent}{key}: '
+                             f'{convert_to_str(val, depth, indent_char, indent_size)}')
         lines.append(f"{get_indent('   ', depth)}}}")
         return "\n".join(lines)
     elif isinstance(value, bool):
