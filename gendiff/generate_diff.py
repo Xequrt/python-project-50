@@ -77,9 +77,8 @@ def generate_diff(file1_path, file2_path, output_format):
     parsed_data1 = parse(data1, extension1)
     parsed_data2 = parse(data2, extension2)
 
-    diff = build_diff(parsed_data1, parsed_data2)
     if output_format == "stylish":
-        return stylish(diff)
+        return stylish(build_diff(parsed_data1, parsed_data2))
     elif output_format == "plain":
         return get_plain(make_diff(parsed_data1, parsed_data2))
     elif output_format == 'json':
