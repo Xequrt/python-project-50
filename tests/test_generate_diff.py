@@ -30,7 +30,11 @@ from gendiff import generate_diff
     ('./tests/fixtures/file1_tree.json',
      './tests/fixtures/file2_tree.json',
      'plain',
-     './tests/fixtures/correct_result_plain.txt')
+     './tests/fixtures/correct_result_plain.txt'),
+    ('./tests/fixtures/file1_tree.json',
+     './tests/fixtures/file2_tree.json',
+     'json',
+     './tests/fixtures/correct_result_json_format.txt')
 ])
 def test_generate_diff(file1, file2, format, result_file):
     diff = generate_diff(file1, file2, output_format=format)
