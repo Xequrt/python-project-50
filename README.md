@@ -40,3 +40,11 @@ The program compares and finds differences in the data structure in two YML form
 The program compares two data structures and finds the differences between them with stylish formatter. JSON and YAML formats have a recursive structure. 
 
 [![asciicast](https://asciinema.org/a/667774.svg)](https://asciinema.org/a/667774)
+
+***🐫≠🐪Comparison of tree files (JSON, YML, YAML) with plain formatter***
+
+`gendiff file1.yaml file2.json`
+
+The program compares two data structures and finds the differences between them with plain formatter. JSON and YAML formats have a recursive structure.
+
+[![asciicast](https://asciinema.org/a/669037.svg)](https://asciinema.org/a/669037)
