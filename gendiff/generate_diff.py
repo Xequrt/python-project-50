@@ -83,6 +83,6 @@ def generate_diff(file1_path, file2_path, output_format):
     elif output_format == "plain":
         return get_plain(make_diff(parsed_data1, parsed_data2))
     elif output_format == 'json':
-        return get_json(diff)
+        return get_json(make_diff(parsed_data1, parsed_data2))
 
     raise ValueError(f"Unrecognized output format: {output_format}")
