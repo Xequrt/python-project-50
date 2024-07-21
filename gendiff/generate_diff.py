@@ -1,6 +1,7 @@
 from gendiff.data import extensions_data
 from gendiff.parser import parse
-from gendiff.stylish import stylish
+from formatters.stylish import stylish
+from formatters.plain import get_plain
 
 
 def build_diff(parsed_data1, parsed_data2):
@@ -78,5 +79,7 @@ def generate_diff(file1_path, file2_path, output_format):
     diff = build_diff(parsed_data1, parsed_data2)
     if output_format == "stylish":
         return stylish(diff)
+    elif output_format == "plain":
+        return get_plain(make_diff(parsed_data1, parsed_data2))
 
     raise ValueError(f"Unrecognized output format: {output_format}")
