@@ -70,7 +70,7 @@ def make_diff(data1, data2):
     return diff
 
 
-def generate_diff(file1_path, file2_path, output_format):
+def generate_diff(file1_path, file2_path, output_format='stylish'):
     data1, extension1 = extensions_data(file1_path)
     data2, extension2 = extensions_data(file2_path)
 
