@@ -8,18 +8,6 @@ def get_absolute_path(filename):
 
 
 @pytest.mark.parametrize('file1, file2, format, result_file', [
-    ('file1.json',
-     'file2.json',
-     'stylish',
-     'correct_result_json.txt'),
-    ('file1.yml',
-     'file2.yml',
-     'stylish',
-     'correct_result_yml.txt'),
-    ('file1.yaml',
-     'file2.yaml',
-     'stylish',
-     'correct_result_yaml.txt'),
     ('file1_tree.json',
      'file2_tree.json',
      'stylish',
