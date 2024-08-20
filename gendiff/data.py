@@ -10,3 +10,4 @@ def extensions_data(path_file):
         with open(path_file) as path_file:
             data = path_file.read()
         return data, extension
+    raise ValueError(f"Unrecognized extension: {extension}")
